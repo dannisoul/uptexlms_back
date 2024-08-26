@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Especialidad } from './especialidad.entity'
+import { Pais } from './pais.entity'
 
 @Entity()
 export class Usuario {
@@ -42,9 +43,12 @@ export class Usuario {
     @Column({ length: 250, nullable: true })
       direccion: string | null
 
-    //  TODO: ¿Crear una nueva entidad con todas las nacionalidades, o tener un json en el proyecto de frontend?
     @Column({ nullable: true })
-      nacionalidad: number | null
+      idPais: number | null
+
+    @ManyToOne(() => Pais, { nullable: true })
+    @JoinColumn({ name: 'idPais' })
+      pais: Pais | null
 
     @Column({ nullable: true })
       idEspecialidad: number | null

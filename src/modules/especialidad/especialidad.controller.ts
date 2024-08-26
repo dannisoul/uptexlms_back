@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common'
 import { EspecialidadService } from './especialidad.service'
 import { CreateEspecialidadDto } from './dto/create-especialidad.dto'
 import { UpdateEspecialidadDto } from './dto/update-especialidad.dto'
@@ -32,5 +32,10 @@ export class EspecialidadController {
     @Body() updateEspecialidadDto: UpdateEspecialidadDto
   ) {
     return this.especialidadService.update(id, updateEspecialidadDto)
+  }
+
+  @Delete(':id')
+  async delete (@Param('id', ParseIntPipe) id: number) {
+    return this.especialidadService.delete(id)
   }
 }

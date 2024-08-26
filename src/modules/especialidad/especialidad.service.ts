@@ -36,4 +36,10 @@ export class EspecialidadService {
     const result = await this.especialidadRepository.update(idEspecialidad, updateEspecialidadDto)
     return result
   }
+
+  async delete (idEspecialidad: number) {
+    const especialidad = await this.especialidadRepository.findOne({ where: { idEspecialidad } })
+    if (!especialidad) throw new NotFoundException(`La especialidad con el id ${idEspecialidad} no se encuentra en la base de datos`)
+    return this.especialidadRepository.delete(idEspecialidad)
+  }
 }

@@ -11,6 +11,7 @@ import { UnidadModule } from './modules/unidad/unidad.module'
 import { TemaModule } from './modules/tema/tema.module'
 import { NivelModule } from './modules/nivel/nivel.module'
 import { CategoriaModule } from './modules/categoria/categoria.module'
+import { PaisModule } from './modules/pais/pais.module'
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { CategoriaModule } from './modules/categoria/categoria.module'
     UnidadModule,
     TemaModule,
     NivelModule,
-    CategoriaModule
+    CategoriaModule,
+    PaisModule
   ],
   controllers: [AppController],
   providers: [AppService]
