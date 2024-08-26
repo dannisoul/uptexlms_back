@@ -3,7 +3,6 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { UsuarioModule } from './modules/usuario/usuario.module'
 import { AuthModule } from './modules/auth/auth.module'
-import { CursoModule } from './modules/curso/curso.module'
 import { EspecialidadModule } from './modules/especialidad/especialidad.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ConfigModule, ConfigService } from '@nestjs/config'
@@ -11,6 +10,7 @@ import { UnidadModule } from './modules/unidad/unidad.module'
 import { TemaModule } from './modules/tema/tema.module'
 import { NivelModule } from './modules/nivel/nivel.module'
 import { CategoriaModule } from './modules/categoria/categoria.module'
+import { CursoModule } from './modules/curso/curso.module';
 
 @Module({
   imports: [
@@ -19,7 +19,6 @@ import { CategoriaModule } from './modules/categoria/categoria.module'
     }),
     UsuarioModule,
     AuthModule,
-    CursoModule,
     EspecialidadModule,
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
@@ -38,7 +37,8 @@ import { CategoriaModule } from './modules/categoria/categoria.module'
     UnidadModule,
     TemaModule,
     NivelModule,
-    CategoriaModule
+    CategoriaModule,
+    CursoModule
   ],
   controllers: [AppController],
   providers: [AppService]
