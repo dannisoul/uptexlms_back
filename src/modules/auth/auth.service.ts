@@ -12,7 +12,6 @@ export class AuthService {
   async login (correo: string, password: string): Promise<{access_token: string}> {
     try {
       const usuario = await this.usuarioService.findOneByCorreo(correo)
-      console.log("este es el resultado: ", usuario)
       if (usuario.password !== password) throw new UnauthorizedException('Credenciales no válidas')
       const payload = {
         sub: usuario.idUsuario,
