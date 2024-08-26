@@ -18,10 +18,6 @@ import { PaisModule } from './modules/pais/pais.module'
     ConfigModule.forRoot({
       isGlobal: true
     }),
-    UsuarioModule,
-    AuthModule,
-    CursoModule,
-    EspecialidadModule,
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
@@ -36,6 +32,10 @@ import { PaisModule } from './modules/pais/pais.module'
       imports: [ConfigModule],
       inject: [ConfigService]
     }),
+    UsuarioModule,
+    AuthModule,
+    CursoModule,
+    EspecialidadModule,
     UnidadModule,
     TemaModule,
     NivelModule,
