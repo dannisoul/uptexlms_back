@@ -25,7 +25,7 @@ export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {
 
     @IsOptional()
     @IsInt()
-      nacionalidad?: number
+      idPais?: number
 
     @IsOptional()
     @IsInt()

@@ -44,4 +44,10 @@ export class UsuarioService {
     //  TODO: Hashear la contraseña antes de guardarla
     return this.usuarioRepository.update(idUsuario, updateUsuarioDto)
   }
+
+  async delete (idUsuario: number) {
+    const pais = await this.usuarioRepository.findOne({ where: { idUsuario } })
+    if (!pais) throw new NotFoundException(`El usuario con el id ${idUsuario} no se encuentra en la base de datos`)
+    return this.usuarioRepository.delete(idUsuario)
+  }
 }
