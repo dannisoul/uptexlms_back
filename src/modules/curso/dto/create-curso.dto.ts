@@ -1,14 +1,12 @@
-import { IsInt, IsString, MaxLength, MinLength } from 'class-validator'
+import { IsInt, IsString, Length, MaxLength, MinLength } from 'class-validator'
 
 export class CreateCursoDto {
     @IsString()
-    @MinLength(3)
-    @MaxLength(100)
+    @Length(3, 100)
       nombre: string
 
     @IsString()
-    @MinLength(30)
-    @MaxLength(1000)
+    @Length(30, 1000)
       descripcion: string
 
     @IsInt()
