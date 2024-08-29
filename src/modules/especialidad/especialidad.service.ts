@@ -13,7 +13,7 @@ export class EspecialidadService {
 
   async findOne (idEspecialidad: number): Promise<Especialidad> {
     const especialidad = await this.especialidadRepository.findOne({ where: { idEspecialidad } })
-    if (!especialidad) throw new NotFoundException()
+    if (!especialidad) throw new NotFoundException(`La especialidad con el id ${idEspecialidad} no se encuentra en la base de datos`)
     return especialidad
   }
 
@@ -32,7 +32,7 @@ export class EspecialidadService {
     const especialidad = await this.especialidadRepository.findOne({ where: { idEspecialidad } })
     if (!especialidad) throw new NotFoundException(`La especialidad con el id ${idEspecialidad} no se encuentra en la base de datos`)
     const especialidadExists = await this.especialidadRepository.findOne({ where: { nombre: updateEspecialidadDto.nombre, idEspecialidad: Not(idEspecialidad) } })
-    if (especialidadExists) throw new ConflictException('El nombre de esta especialidad ya esta en la base de datos')
+    if (especialidadExists) throw new ConflictException('Esta especialidad ya esta en la base de datos')
     const result = await this.especialidadRepository.update(idEspecialidad, updateEspecialidadDto)
     return result
   }

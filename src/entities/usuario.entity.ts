@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Especialidad } from './especialidad.entity'
 import { Pais } from './pais.entity'
+import { Habilidad } from './habilidad.entity'
 
 @Entity()
 export class Usuario {
@@ -65,4 +66,7 @@ export class Usuario {
 
     @Column({ length: 100, nullable: true })
       facebook: string | null
+
+    @ManyToMany(() => Habilidad, (habilidad) => habilidad.usuarios)
+      habilidades: Habilidad[]
 }

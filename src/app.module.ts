@@ -12,6 +12,7 @@ import { TemaModule } from './modules/tema/tema.module'
 import { NivelModule } from './modules/nivel/nivel.module'
 import { CategoriaModule } from './modules/categoria/categoria.module'
 import { PaisModule } from './modules/pais/pais.module'
+import { HabilidadModule } from './modules/habilidad/habilidad.module'
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import { PaisModule } from './modules/pais/pais.module'
     TemaModule,
     NivelModule,
     CategoriaModule,
-    PaisModule
+    PaisModule,
+    HabilidadModule
   ],
   controllers: [AppController],
   providers: [AppService]

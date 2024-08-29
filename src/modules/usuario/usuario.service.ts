@@ -1,14 +1,17 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Not, Repository, UpdateResult } from 'typeorm'
+import { In, Not, Repository, UpdateResult } from 'typeorm'
 import { Usuario } from '../../entities/usuario.entity'
 import { CreateUsuarioDto } from './dto/create-usuario.dto'
 import { UpdateUsuarioDto } from './dto/update-usuario.dto'
+import { AddHabilidadesDto } from './dto/add-habilidades.dto'
+import { Habilidad } from 'src/entities/habilidad.entity'
 
 @Injectable()
 export class UsuarioService {
   constructor (
-    @InjectRepository(Usuario) private usuarioRepository: Repository<Usuario>
+    @InjectRepository(Usuario) private usuarioRepository: Repository<Usuario>,
+    @InjectRepository(Habilidad) private habilidadRepository: Repository<Habilidad>
   ) {}
 
   async findAll (): Promise<Usuario[]> {
@@ -41,7 +44,6 @@ export class UsuarioService {
       const usuarioExists = await this.usuarioRepository.findOne({ where: { correo: updateUsuarioDto.correo, idUsuario: Not(idUsuario) } })
       if (usuarioExists) throw new ConflictException('Ya hay un usuario registrado con ese correo')
     }
-    //  TODO: Hashear la contraseña antes de guardarla
     return this.usuarioRepository.update(idUsuario, updateUsuarioDto)
   }
 
@@ -49,5 +51,14 @@ export class UsuarioService {
     const pais = await this.usuarioRepository.findOne({ where: { idUsuario } })
     if (!pais) throw new NotFoundException(`El usuario con el id ${idUsuario} no se encuentra en la base de datos`)
     return this.usuarioRepository.delete(idUsuario)
+  }
+
+  async addHabilidad (idUsuario: number, addHabilidadesDto: AddHabilidadesDto) {
+    const usuario = await this.usuarioRepository.findOne({ where: { idUsuario }, relations: ['habilidades'] })
+    if (!usuario) throw new NotFoundException(`El usuario con el id ${idUsuario} no existe en la base de datos`)
+    const habilidades = await this.habilidadRepository.findBy({ idHabilidad: In(addHabilidadesDto.ids) })
+    if (!habilidades.length) throw new NotFoundException('Las habilidades no existen en la base de datos')
+    usuario.habilidades = [...usuario.habilidades, ...habilidades]
+    return this.usuarioRepository.save(usuario)
   }
 }
