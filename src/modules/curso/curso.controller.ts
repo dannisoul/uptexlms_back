@@ -38,17 +38,11 @@ export class CursoController {
     }
 
     @Get('byTeacher/:id')
-    async findAllByTeacher (@Param('id', ParseIntPipe) idTeacher: number) {
-      console.log('Entro sin paginacion')
-      return this.cursoService.findAllByTeacher(idTeacher)
-    }
-
-    @Get('byTeacher/:id/paginated')
     async findAllByTeacherPagination (
         @Param('id', ParseIntPipe) idTeacher: number,
         @Query('page', ParseIntPipe) page: number = 1,
         @Query('limit', ParseIntPipe) limit: number = 10
     ) {
-      return this.cursoService.findAllByTeacherPagination(idTeacher, page, limit)
+      return this.cursoService.findAllByTeacher(idTeacher, page, limit)
     }
 }
