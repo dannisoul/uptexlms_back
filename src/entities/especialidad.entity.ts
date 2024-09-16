@@ -5,6 +5,6 @@ export class Especialidad {
     @PrimaryGeneratedColumn()
       idEspecialidad: number
 
-    @Column({ length: 100 })
+    @Column({ unique: true, nullable: false, length: 100 })
       nombre: string
 }

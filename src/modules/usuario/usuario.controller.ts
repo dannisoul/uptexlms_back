@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common'
 import { UsuarioService } from './usuario.service'
 import { CreateUsuarioDto } from './dto/create-usuario.dto'
 import { UpdateUsuarioDto } from './dto/update-usuario.dto'
 import { AuthGuard } from 'src/common/guards/auth/auth.guard'
+import { AddHabilidadesDto } from './dto/add-habilidades.dto'
 
 @Controller('usuario')
 @UseGuards(AuthGuard)
@@ -26,7 +27,7 @@ export class UsuarioController {
     return this.usuarioService.create(createUsuarioDto)
   }
 
-  @Put(':id')
+  @Patch(':id')
   async update (@Param('id', ParseIntPipe) id: number, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return this.usuarioService.update(id, updateUsuarioDto)
   }
@@ -34,5 +35,10 @@ export class UsuarioController {
   @Delete(':id')
   async delete (@Param('id', ParseIntPipe) id: number) {
     return this.usuarioService.delete(id)
+  }
+
+  @Patch(':id/habilidades')
+  async addHabilidad (@Param('id', ParseIntPipe) id: number, @Body() addHabilidadesDto: AddHabilidadesDto) {
+    return this.usuarioService.addHabilidad(id, addHabilidadesDto)
   }
 }
