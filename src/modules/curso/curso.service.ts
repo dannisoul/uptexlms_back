@@ -26,14 +26,14 @@ export class CursoService {
   }
 
   async create (createCursoDto: CreateCursoDto): Promise<CreateCursoDto & Curso> {
-    const cursoExist = await this.cursoRepository.findOne({ where: { nombre: createCursoDto.nombre } })
-    if (cursoExist) throw new ConflictException('Ya existe un curso con ese nombre')
+    const cursoExists = await this.cursoRepository.findOne({ where: { nombre: createCursoDto.nombre } })
+    if (cursoExists) throw new ConflictException('Ya existe un curso con ese nombre')
     return this.cursoRepository.save(createCursoDto)
   }
 
   async update (idCurso: number, curso: UpdateCursoDto): Promise<UpdateResult> {
-    const cursoExist = await this.cursoRepository.findOne({ where: { idCurso } })
-    if (!cursoExist) throw new NotFoundException(`No existe ningun curso con el id ${idCurso} en la base de datos`)
+    const cursoExists = await this.cursoRepository.findOne({ where: { idCurso } })
+    if (!cursoExists) throw new NotFoundException(`No existe ningun curso con el id ${idCurso} en la base de datos`)
     if (curso.nombre) {
       const cursoNameRepit = await this.cursoRepository.findOne({ where: { nombre: curso.nombre, idCurso: Not(idCurso) } })
       if (cursoNameRepit) throw new ConflictException('Ya existe un curso con ese nombre')
@@ -47,14 +47,7 @@ export class CursoService {
     return this.cursoRepository.delete({ idCurso })
   }
 
-  async findAllByTeacher (idTeacher: number): Promise<Curso[]> {
-    const usuario = await this.usuarioService.findOne(idTeacher)
-    if (!usuario) throw new NotFoundException(`No existe ningun usuario con el id ${idTeacher} en la base de datos`)
-    if (usuario.rol !== 2) throw new ConflictException('Este usuario no tiene el rol de docente')
-    return this.cursoRepository.find({ where: { idUsuario: idTeacher } })
-  }
-
-  async findAllByTeacherPagination (idTeacher: number, page: number, limit: number): Promise<any> {
+  async findAllByTeacher (idTeacher: number, page: number, limit: number): Promise<any> {
     const usuario = await this.usuarioService.findOne(idTeacher)
     if (!usuario) throw new NotFoundException(`No existe ningun usuario con el id ${idTeacher} en la base de datos`)
     if (usuario.rol !== 2) throw new ConflictException('Este usuario no tiene el rol de docente')
@@ -68,10 +61,11 @@ export class CursoService {
     if (result.length === 0) {
       throw new NotFoundException('No hay cursos')
     }
+    
     const baseUrl = this.configService.get<string>('BASE_URL') + 'curso/byTeacher/'
     const totalPaginas = Math.ceil(total / limit)
-    const paginaSiguiente = page < totalPaginas ? `${baseUrl}${idTeacher}/paginated?page=${page + 1}&limit=${limit}` : null
-    const paginaAnterior = page > 1 ? `${baseUrl}${idTeacher}/paginated?page=${page - 1}&limit=${limit}` : null
+    const paginaSiguiente = page < totalPaginas ? `${baseUrl}${idTeacher}?page=${page + 1}&limit=${limit}` : null
+    const paginaAnterior = page > 1 ? `${baseUrl}${idTeacher}?page=${page - 1}&limit=${limit}` : null
 
     return {
       cursos: result,

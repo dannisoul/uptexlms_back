@@ -13,6 +13,7 @@ import { NivelModule } from './modules/nivel/nivel.module'
 import { CategoriaModule } from './modules/categoria/categoria.module'
 import { PaisModule } from './modules/pais/pais.module'
 import { HabilidadModule } from './modules/habilidad/habilidad.module'
+import { GrupoModule } from './modules/grupo/grupo.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { HabilidadModule } from './modules/habilidad/habilidad.module'
     CategoriaModule,
     PaisModule,
     HabilidadModule
+    GrupoModule
   ],
   controllers: [AppController],
   providers: [AppService]
